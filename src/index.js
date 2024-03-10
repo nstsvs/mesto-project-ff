@@ -23,47 +23,47 @@ const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_description');
 
 function addCard(link, name) {
-    const cardElement = createCard(link, name, onDelete);
-    cardsList.append(cardElement);
+	const cardElement = createCard(link, name, onDelete);
+	cardsList.append(cardElement);
 }
 
 initialCards.forEach(function (element) {
-    addCard(element.link, element.name);
+	addCard(element.link, element.name);
 });
 
 function onDelete(evt) {
-    const listItem = evt.target.closest('.places__item');
-    listItem.remove();
+	const listItem = evt.target.closest('.places__item');
+	listItem.remove();
 }
 
 editButton.addEventListener('click', function () {
-    openModal(editProfileForm);
+	openModal(editProfileForm);
 });
 
 addCardButton.addEventListener('click', function () {
-    openModal(addCardForm);
+	openModal(addCardForm);
 });
 
 closeButton.forEach(function(button) {
-    button.addEventListener('click', function() {
-        closeModal(document.querySelector('.popup_is-opened'));
-    });
+	button.addEventListener('click', function() {
+		closeModal(document.querySelector('.popup_is-opened'));
+	});
 });
 
 modal.forEach(function (item) {
-    item.addEventListener('click', closeOverlay);
+	item.addEventListener('click', closeOverlay);
 });
 
 function handleFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы
+	evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы
 
-    const nameValue = nameInput.value;
-    const jobValue = jobInput.value;
+	const nameValue = nameInput.value;
+	const jobValue = jobInput.value;
 
-    document.querySelector('.profile__title').textContent = nameValue;
-    document.querySelector('.profile__description').textContent = jobValue;
+	document.querySelector('.profile__title').textContent = nameValue;
+	document.querySelector('.profile__description').textContent = jobValue;
 
-    closeModal(editProfileForm);
+	closeModal(editProfileForm);
 }
 
 formElement.addEventListener('submit', handleFormSubmit);
