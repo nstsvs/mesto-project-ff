@@ -13,6 +13,7 @@ const closeButton = document.querySelectorAll('.popup__close');
 // Редактирование профиля
 const editButton = document.querySelector('.profile__edit-button');
 const editProfileForm = document.querySelector('.popup_type_edit');
+
 // Добавление карточки
 const addCardForm = document.querySelector('.popup_type_new-card');
 const addCardButton = document.querySelector('.profile__add-button');
