@@ -17,6 +17,8 @@ const editProfileForm = document.querySelector('.popup_type_edit');
 // Добавление карточки
 const addCardForm = document.querySelector('.popup_type_new-card');
 const addCardButton = document.querySelector('.profile__add-button');
+const cardNameInput = addCardForm.querySelector('.popup__input_type_card-name');
+const cardUrlInput = addCardForm.querySelector('.popup__input_type_url');
 
 // Работа с формой
 const formElement = document.querySelector('.popup__form');
@@ -55,8 +57,8 @@ modal.forEach(function (item) {
 	item.addEventListener('click', closeOverlay);
 });
 
-function handleFormSubmit(evt) {
-	evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы
+function editProfileFormSubmit(evt) {
+	evt.preventDefault();
 
 	const nameValue = nameInput.value;
 	const jobValue = jobInput.value;
@@ -67,4 +69,21 @@ function handleFormSubmit(evt) {
 	closeModal(editProfileForm);
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
+formElement.addEventListener('submit', editProfileFormSubmit);
+
+function addCardFormSubmit(evt) {
+	evt.preventDefault();
+
+	const urlValue = cardUrlInput.value;
+	const cardNameValue = cardNameInput.value;
+
+	const card = createCard(urlValue, cardNameValue, onDelete);
+
+	cardsList.prepend(card);
+
+	// addCardForm.reset(); ???
+
+	closeModal(addCardForm);
+}
+
+addCardForm.addEventListener('submit', addCardFormSubmit);
