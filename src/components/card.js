@@ -1,4 +1,4 @@
-export function createCard(link, name, likeCard, onDelete) {
+export function createCard(link, name, likeCard, onDelete, openFullCardModal) {
 	const container = document.querySelector('#card-template').content;
 	const cardElement = container.querySelector('.places__item').cloneNode(true);
 	const deleteButton = cardElement.querySelector('.card__delete-button');
@@ -10,7 +10,12 @@ export function createCard(link, name, likeCard, onDelete) {
 	cardImage.alt = name;
 
 	likeButton.addEventListener('click', likeCard);
+
 	deleteButton.addEventListener('click', onDelete);
+
+	cardImage.addEventListener('click', function () {
+		openFullCardModal(name, link);
+	});
 
 	return cardElement;
 }

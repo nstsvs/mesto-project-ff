@@ -13,20 +13,24 @@ const closeButton = document.querySelectorAll('.popup__close');
 // Редактирование профиля
 const editButton = document.querySelector('.profile__edit-button');
 const editProfileForm = document.querySelector('.popup_type_edit');
-
-// Добавление карточки
-const addCardForm = document.querySelector('.popup_type_new-card');
-const addCardButton = document.querySelector('.profile__add-button');
-const cardNameInput = addCardForm.querySelector('.popup__input_type_card-name');
-const cardUrlInput = addCardForm.querySelector('.popup__input_type_url');
-
-// Работа с формой
 const formElement = document.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_description');
 
+// Добавление карточки
+const addCardForm = document.querySelector('.popup_type_new-card');
+const addCardButton = document.querySelector('.profile__add-button');
+const addCardFormElement = addCardForm.querySelector('.popup__form');
+const cardNameInput = addCardForm.querySelector('.popup__input_type_card-name');
+const cardUrlInput = addCardForm.querySelector('.popup__input_type_url');
+
+// Открытие попапа с картинкой
+const fullCardModal = document.querySelector('.popup_type_image');
+const fullCardImage = fullCardModal.querySelector('.popup__image');
+const fullCardCaption = fullCardModal.querySelector('.popup__caption');
+
 function addCard(link, name) {
-	const cardElement = createCard(link, name, likeCard, onDelete);
+	const cardElement = createCard(link, name, likeCard, onDelete, openFullCardModal);
 	cardsList.append(cardElement);
 }
 
@@ -75,17 +79,24 @@ function editProfileFormSubmit(evt) {
 
 formElement.addEventListener('submit', editProfileFormSubmit);
 
+function openFullCardModal(name, link) {
+	fullCardImage.src = link;
+	fullCardImage.alt = name;
+	fullCardCaption.textContent = name;
+	openModal(fullCardModal);
+}
+
 function addCardFormSubmit(evt) {
 	evt.preventDefault();
 
 	const urlValue = cardUrlInput.value;
 	const nameValue = cardNameInput.value;
 
-	const card = createCard(urlValue, nameValue, likeCard, onDelete);
+	const card = createCard(urlValue, nameValue, likeCard, onDelete, openFullCardModal);
 
 	cardsList.prepend(card);
 
-	// addCardForm.reset(); ???
+	addCardFormElement.reset();
 
 	closeModal(addCardForm);
 }
