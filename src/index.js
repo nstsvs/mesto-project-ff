@@ -26,13 +26,17 @@ const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_description');
 
 function addCard(link, name) {
-	const cardElement = createCard(link, name, onDelete);
+	const cardElement = createCard(link, name, likeCard, onDelete);
 	cardsList.append(cardElement);
 }
 
 initialCards.forEach(function (element) {
 	addCard(element.link, element.name);
 });
+
+function likeCard(evt) {
+	evt.target.classList.toggle('card__like-button_is-active');
+}
 
 function onDelete(evt) {
 	const listItem = evt.target.closest('.places__item');
@@ -75,9 +79,9 @@ function addCardFormSubmit(evt) {
 	evt.preventDefault();
 
 	const urlValue = cardUrlInput.value;
-	const cardNameValue = cardNameInput.value;
+	const nameValue = cardNameInput.value;
 
-	const card = createCard(urlValue, cardNameValue, onDelete);
+	const card = createCard(urlValue, nameValue, likeCard, onDelete);
 
 	cardsList.prepend(card);
 
