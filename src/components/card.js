@@ -19,3 +19,12 @@ export function createCard(link, name, likeCard, onDelete, openFullCardModal) {
 
 	return cardElement;
 }
+
+export function likeCard(evt) {
+	evt.target.classList.toggle('card__like-button_is-active');
+}
+
+export function onDelete(evt) {
+	const listItem = evt.target.closest('.places__item');
+	listItem.remove();
+}

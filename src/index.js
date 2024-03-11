@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { initialCards } from './components/cards';
-import { createCard } from './components/card';
+import {createCard, likeCard, onDelete} from './components/card';
 import { openModal, closeModal, closeOverlay } from './components/modal';
 
 // Список карточек
@@ -29,42 +29,40 @@ const fullCardModal = document.querySelector('.popup_type_image');
 const fullCardImage = fullCardModal.querySelector('.popup__image');
 const fullCardCaption = fullCardModal.querySelector('.popup__caption');
 
+// Добавление карточки на страницу
 function addCard(link, name) {
 	const cardElement = createCard(link, name, likeCard, onDelete, openFullCardModal);
 	cardsList.append(cardElement);
 }
 
+// Вывод карточек на страницу
 initialCards.forEach(function (element) {
 	addCard(element.link, element.name);
 });
 
-function likeCard(evt) {
-	evt.target.classList.toggle('card__like-button_is-active');
-}
-
-function onDelete(evt) {
-	const listItem = evt.target.closest('.places__item');
-	listItem.remove();
-}
-
+// Кнопка редактирования профиля
 editButton.addEventListener('click', function () {
 	openModal(editProfileForm);
 });
 
+// Кнопка добавления карточки
 addCardButton.addEventListener('click', function () {
 	openModal(addCardForm);
 });
 
+// Кнопка закрытия модального окна
 closeButton.forEach(function(button) {
 	button.addEventListener('click', function() {
 		closeModal(document.querySelector('.popup_is-opened'));
 	});
 });
 
+// Закрытие модального окна через оверлей
 modal.forEach(function (item) {
 	item.addEventListener('click', closeOverlay);
 });
 
+// Форма редактирования профиля
 function editProfileFormSubmit(evt) {
 	evt.preventDefault();
 
@@ -79,13 +77,7 @@ function editProfileFormSubmit(evt) {
 
 formElement.addEventListener('submit', editProfileFormSubmit);
 
-function openFullCardModal(name, link) {
-	fullCardImage.src = link;
-	fullCardImage.alt = name;
-	fullCardCaption.textContent = name;
-	openModal(fullCardModal);
-}
-
+// Форма добавления карточки на страницу
 function addCardFormSubmit(evt) {
 	evt.preventDefault();
 
@@ -102,3 +94,11 @@ function addCardFormSubmit(evt) {
 }
 
 addCardForm.addEventListener('submit', addCardFormSubmit);
+
+// Открытие карточки
+function openFullCardModal(name, link) {
+	fullCardImage.src = link;
+	fullCardImage.alt = name;
+	fullCardCaption.textContent = name;
+	openModal(fullCardModal);
+}
