@@ -34,7 +34,7 @@ const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
 
 // Добавление карточки на страницу
 function addCard(link, name) {
-	const cardElement = createCard(link, name, likeCard, onDelete, fullCardPopup);
+	const cardElement = createCard(link, name, likeCard, onDelete, openFullCardPopup);
 	cardsList.append(cardElement);
 }
 
@@ -96,7 +96,7 @@ function handleCardFormSubmit(evt) {
 	const urlValue = cardUrlInput.value;
 	const nameValue = cardNameInput.value;
 
-	const card = createCard(urlValue, nameValue, likeCard, onDelete, fullCardPopup);
+	const card = createCard(urlValue, nameValue, likeCard, onDelete, openFullCardPopup);
 
 	cardsList.prepend(card);
 
