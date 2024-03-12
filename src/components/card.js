@@ -13,7 +13,7 @@ export function createCard(link, name, likeCard, onDelete, openFullCardModal) {
 
 	deleteButton.addEventListener('click', onDelete);
 
-	cardImage.addEventListener('click', function () {
+	cardImage.addEventListener('click', () => {
 		openFullCardModal(name, link);
 	});
 
