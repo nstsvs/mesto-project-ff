@@ -1,13 +1,13 @@
 import './pages/index.css';
 import { initialCards } from './components/cards';
 import { createCard, likeCard, onDelete } from './components/card';
-import { openModal, closeModal, closeOverlay } from './components/modal';
+import { openPopup, closePopup, closeOverlay } from './components/modal';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
 
 // Общие селекторы
-const modals = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup');
 const closeButtons = document.querySelectorAll('.popup__close');
 
 // Редактирование профиля
@@ -28,13 +28,13 @@ const cardNameInput = cardForm.querySelector('.popup__input_type_card-name');
 const cardUrlInput = cardForm.querySelector('.popup__input_type_url');
 
 // Открытие попапа с картинкой
-const fullCardModal = document.querySelector('.popup_type_image');
-const fullCardImage = fullCardModal.querySelector('.popup__image');
-const fullCardCaption = fullCardModal.querySelector('.popup__caption');
+const fullCardPopup = document.querySelector('.popup_type_image');
+const fullCardImage = fullCardPopup.querySelector('.popup__image');
+const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
 
 // Добавление карточки на страницу
 function addCard(link, name) {
-	const cardElement = createCard(link, name, likeCard, onDelete, openFullCardModal);
+	const cardElement = createCard(link, name, likeCard, onDelete, fullCardPopup);
 	cardsList.append(cardElement);
 }
 
@@ -45,24 +45,30 @@ initialCards.forEach((element) => {
 
 // Кнопка редактирования профиля
 editButton.addEventListener('click', () => {
-	openModal(profileFormWrap);
+	openPopup(profileFormWrap);
+
+	const currentName = profileTitle.textContent;
+	const currentJob = profileDescription.textContent;
+
+	nameInput.value = currentName;
+	jobInput.value = currentJob;
 });
 
 // Кнопка добавления карточки
 addCardButton.addEventListener('click', () => {
-	openModal(cardFormWrap);
+	openPopup(cardFormWrap);
 });
 
 // Кнопка закрытия модального окна
 closeButtons.forEach((button) => {
-	// находим 1 раз ближайший к крестику попап
+	// Находим 1 раз ближайший к крестику попап
 	const popup = button.closest('.popup');
-	// устанавливаем обработчик закрытия на крестик
-	button.addEventListener('click', () => closeModal(popup));
+	// Устанавливаем обработчик закрытия на крестик
+	button.addEventListener('click', () => closePopup(popup));
 });
 
 // Закрытие модального окна через оверлей
-modals.forEach((item) => {
+popups.forEach((item) => {
 	item.addEventListener('click', closeOverlay);
 });
 
@@ -70,13 +76,15 @@ modals.forEach((item) => {
 function handleProfileFormSubmit(evt) {
 	evt.preventDefault();
 
+	// Получаем текущие значения
 	const nameValue = nameInput.value;
 	const jobValue = jobInput.value;
 
+	// Устанавливаем текущие значения
 	profileTitle.textContent = nameValue;
 	profileDescription.textContent = jobValue;
 
-	closeModal(profileForm);
+	closePopup(profileForm);
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -88,21 +96,21 @@ function handleCardFormSubmit(evt) {
 	const urlValue = cardUrlInput.value;
 	const nameValue = cardNameInput.value;
 
-	const card = createCard(urlValue, nameValue, likeCard, onDelete, openFullCardModal);
+	const card = createCard(urlValue, nameValue, likeCard, onDelete, fullCardPopup);
 
 	cardsList.prepend(card);
 
 	cardFormElement.reset();
 
-	closeModal(cardForm);
+	closePopup(cardForm);
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
 
 // Открытие карточки
-function openFullCardModal(name, link) {
+function openFullCardPopup(name, link) {
 	fullCardImage.src = link;
 	fullCardImage.alt = name;
 	fullCardCaption.textContent = name;
-	openModal(fullCardModal);
+	openPopup(fullCardPopup);
 }
