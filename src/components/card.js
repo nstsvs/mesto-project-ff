@@ -1,4 +1,6 @@
-export function createCard(link, name, likeCard, onDelete, openFullCardPopup) {
+export function createCard(cardParameters) {
+	const { link, name, likeCard, onDelete, openFullCardPopup } = cardParameters;
+
 	const container = document.querySelector('#card-template').content;
 	const cardElement = container.querySelector('.places__item').cloneNode(true);
 	const deleteButton = cardElement.querySelector('.card__delete-button');

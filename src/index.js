@@ -31,14 +31,25 @@ const fullCardImage = fullCardPopup.querySelector('.popup__image');
 const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
 
 // Добавление карточки на страницу
-function addCard(link, name) {
-	const cardElement = createCard(link, name, likeCard, onDelete, openFullCardPopup);
+function addCard(cardParameters) {
+	// Извлекаем необходимые параметры из объекта cardParameters
+	const { link, name } = cardParameters;
+
+	// Создаем карточку с использованием полученных параметров и других функций
+	const cardElement = createCard({
+		link,
+		name,
+		likeCard,
+		onDelete,
+		openFullCardPopup
+	});
+
 	cardsList.append(cardElement);
 }
 
 // Вывод карточек на страницу
 initialCards.forEach((element) => {
-	addCard(element.link, element.name);
+	addCard(element);
 });
 
 // Открытие карточки
@@ -98,12 +109,16 @@ function handleCardFormSubmit(evt) {
 	const urlValue = cardUrlInput.value;
 	const nameValue = cardNameInput.value;
 
-	const card = createCard(urlValue, nameValue, likeCard, onDelete, openFullCardPopup);
+	const card = createCard({
+		link: urlValue,
+		name: nameValue,
+		likeCard,
+		onDelete,
+		openFullCardPopup
+	});
 
 	cardsList.prepend(card);
-
 	cardForm.reset();
-
 	closePopup(cardFormWrap);
 }
 
