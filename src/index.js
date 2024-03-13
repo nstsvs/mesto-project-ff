@@ -1,14 +1,13 @@
 import './pages/index.css';
 import { initialCards } from './components/cards';
 import { createCard, likeCard, onDelete } from './components/card';
-import { openPopup, closePopup, closeOverlay } from './components/modal';
+import { openPopup, closePopup } from './components/modal';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
 
 // Общие селекторы
 const popups = document.querySelectorAll('.popup');
-const closeButtons = document.querySelectorAll('.popup__close');
 
 // Редактирование профиля
 const editButton = document.querySelector('.profile__edit-button');
@@ -43,6 +42,14 @@ initialCards.forEach((element) => {
 	addCard(element.link, element.name);
 });
 
+// Открытие карточки
+function openFullCardPopup(name, link) {
+	fullCardImage.src = link;
+	fullCardImage.alt = name;
+	fullCardCaption.textContent = name;
+	openPopup(fullCardPopup);
+}
+
 // Кнопка редактирования профиля
 editButton.addEventListener('click', () => {
 	openPopup(profileFormWrap);
@@ -59,17 +66,13 @@ addCardButton.addEventListener('click', () => {
 	openPopup(cardFormWrap);
 });
 
-// Кнопка закрытия модального окна
-closeButtons.forEach((button) => {
-	// Находим 1 раз ближайший к крестику попап
-	const popup = button.closest('.popup');
-	// Устанавливаем обработчик закрытия на крестик
-	button.addEventListener('click', () => closePopup(popup));
-});
-
-// Закрытие модального окна через оверлей
-popups.forEach((item) => {
-	item.addEventListener('click', closeOverlay);
+// Закрытие попапов. Находим все попапы и пробегаемся по ним, навешивая обработчик
+popups.forEach((popup) => {
+	popup.addEventListener('mousedown', (evt) => {
+		if (evt.target.classList.contains('popup_is-opened') || (evt.target.classList.contains('popup__close'))) {
+			closePopup(popup);
+		}
+	});
 });
 
 // Форма редактирования профиля
@@ -106,11 +109,3 @@ function handleCardFormSubmit(evt) {
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
-
-// Открытие карточки
-function openFullCardPopup(name, link) {
-	fullCardImage.src = link;
-	fullCardImage.alt = name;
-	fullCardCaption.textContent = name;
-	openPopup(fullCardPopup);
-}
