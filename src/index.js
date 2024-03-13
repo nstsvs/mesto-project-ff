@@ -22,7 +22,6 @@ const jobInput = profileForm.querySelector('.popup__input_type_description');
 const addCardButton = document.querySelector('.profile__add-button');
 const cardFormWrap = document.querySelector('.popup_type_new-card');
 const cardForm = document.forms['new-place'];
-const cardFormElement = cardForm.querySelector('.popup__form');
 const cardNameInput = cardForm.querySelector('.popup__input_type_card-name');
 const cardUrlInput = cardForm.querySelector('.popup__input_type_url');
 
@@ -87,7 +86,7 @@ function handleProfileFormSubmit(evt) {
 	profileTitle.textContent = nameValue;
 	profileDescription.textContent = jobValue;
 
-	closePopup(profileForm);
+	closePopup(profileFormWrap);
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -103,9 +102,9 @@ function handleCardFormSubmit(evt) {
 
 	cardsList.prepend(card);
 
-	cardFormElement.reset();
+	cardForm.reset();
 
-	closePopup(cardForm);
+	closePopup(cardFormWrap);
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
