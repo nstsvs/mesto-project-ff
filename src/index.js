@@ -2,6 +2,7 @@ import './pages/index.css';
 import { initialCards } from './components/cards';
 import { createCard, likeCard, onDelete } from './components/card';
 import { openPopup, closePopup } from './components/modal';
+import { enableValidation } from './components/validation'
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -29,6 +30,17 @@ const cardUrlInput = cardForm.querySelector('.popup__input_type_url');
 const fullCardPopup = document.querySelector('.popup_type_image');
 const fullCardImage = fullCardPopup.querySelector('.popup__image');
 const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
+
+const validationConfig = {
+	formSelector: '.popup__form',
+	inputSelector: '.popup__input',
+	submitButtonSelector: '.popup__button',
+	inactiveButtonClass: 'popup__button_disabled',
+	inputErrorClass: 'popup__input_type_error',
+	errorClass: 'popup__error_visible'
+};
+
+enableValidation(validationConfig);
 
 // Добавление карточки на страницу
 function addCard(cardParameters) {
