@@ -40,8 +40,6 @@ const validationConfig = {
 	errorClass: 'popup__error_visible'
 };
 
-enableValidation(validationConfig);
-
 // Добавление карточки на страницу
 function addCard(cardParameters) {
 	// Извлекаем необходимые параметры из объекта cardParameters
@@ -135,3 +133,5 @@ function handleCardFormSubmit(evt) {
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
+
+enableValidation(validationConfig);

@@ -46,10 +46,10 @@
               class="popup__input popup__input_type_name"
               placeholder="Имя"
               required
-              id="name"
+              id="name-input"
               data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             >
-            <span class="popup__error name-error" aria-live="polite"></span>
+            <span class="name-input-error" aria-live="polite"></span>
             <input
               type="text"
               name="description"
@@ -59,10 +59,10 @@
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
               required
-              id="job"
+              id="job-input"
               data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             >
-            <span class="popup__error job-error" aria-live="polite"></span>
+            <span class="job-input-error" aria-live="polite"></span>
             <button type="submit" class="button popup__button">Сохранить</button>
           </form>
         </div>
@@ -82,19 +82,20 @@
               placeholder="Название"
               data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               required
-              id="title"
+              id="title-input"
             >
-            <span class="popup__error place-name-error" aria-live="polite"></span>
+            <span class="title-input-error" aria-live="polite"></span>
             <input
               type="url"
               name="link"
+              pattern="^(?:(?:https?|HTTPS?|ftp|FTP):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)*)(?::\d{2,})?(?:[\/?#]\S*)?$"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
-              data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+              data-error-message="Введите адрес сайта"
               required
-              id="link"
+              id="link-input"
             >
-            <span class="popup__error url-error" aria-live="polite"></span>
+            <span class="link-input-error" aria-live="polite"></span>
             <button type="submit" class="button popup__button">Создать</button>
           </form>
         </div>

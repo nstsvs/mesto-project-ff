@@ -19,10 +19,11 @@
   cursor: pointer;
 }
 
-.popup__button_disabled {
+.popup__button_disabled:disabled {
   outline: 1px solid #000;
   color: #000;
   opacity: 0.2;
+  cursor: default;
   background-color: transparent;
 }
 
