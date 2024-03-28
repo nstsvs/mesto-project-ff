@@ -2,7 +2,7 @@ import './pages/index.css';
 import { initialCards } from './components/cards';
 import { createCard, likeCard, onDelete } from './components/card';
 import { openPopup, closePopup } from './components/modal';
-import { enableValidation } from './components/validation'
+import { clearValidation, enableValidation } from './components/validation'
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -30,6 +30,8 @@ const cardUrlInput = cardForm.querySelector('.popup__input_type_url');
 const fullCardPopup = document.querySelector('.popup_type_image');
 const fullCardImage = fullCardPopup.querySelector('.popup__image');
 const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
+
+const formElements = [cardForm, profileForm];
 
 const validationConfig = {
 	formSelector: '.popup__form',
@@ -91,6 +93,8 @@ popups.forEach((popup) => {
 	popup.addEventListener('mousedown', (evt) => {
 		if (evt.target.classList.contains('popup_is-opened') || (evt.target.classList.contains('popup__close'))) {
 			closePopup(popup);
+			clearValidation(formElements, validationConfig);
+			cardForm.reset();
 		}
 	});
 });

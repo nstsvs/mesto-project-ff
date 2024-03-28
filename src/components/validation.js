@@ -62,3 +62,15 @@ export function enableValidation(validationConfig) {
     setEventListeners(formElement, validationConfig);
   });
 }
+
+export function clearValidation(formElements, validationConfig) {
+  formElements.forEach((formElement) => {
+    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+    const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+
+    inputList.forEach((inputElement) => {
+      hideInputError(formElement, inputElement, validationConfig);
+      toggleButtonState(inputList, buttonElement, validationConfig)
+    });
+  });
+}
