@@ -120,8 +120,6 @@ function handleProfileFormSubmit(evt) {
 	const nameValue = nameInput.value;
 	const jobValue = jobInput.value;
 
-	// getInitialCards()
-
 	// Устанавливаем текущие значения
 	profileTitle.textContent = nameValue;
 	profileDescription.textContent = jobValue;
