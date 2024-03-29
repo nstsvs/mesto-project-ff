@@ -6,16 +6,29 @@ const config = {
   }
 }
 
+const handleRequest = (res) => {
+  if(res.ok) {
+    return res.json()
+  }
+  return Promise.reject(`Error: ${res.status}`);
+}
+
+export const getProfileInfo = () => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers
+  })
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err);
     });
 }

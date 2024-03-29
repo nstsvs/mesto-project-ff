@@ -1,8 +1,8 @@
 import './pages/index.css';
-import { initialCards } from './components/cards';
 import { createCard, likeCard, onDelete } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
+import { getInitialCards, getProfileInfo } from './api';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -15,6 +15,7 @@ const editButton = document.querySelector('.profile__edit-button');
 const profileFormWrap = document.querySelector('.popup_type_edit');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+const profileImage = document.querySelector('.profile__image');
 const profileForm = document.forms['edit-profile'];
 const nameInput = profileForm.querySelector('.popup__input_type_name');
 const jobInput = profileForm.querySelector('.popup__input_type_description');
@@ -42,6 +43,8 @@ const validationConfig = {
 	errorClass: 'popup__error_visible'
 };
 
+let userId = null;
+
 // Добавление карточки на страницу
 function addCard(cardParameters) {
 	// Извлекаем необходимые параметры из объекта cardParameters
@@ -59,10 +62,20 @@ function addCard(cardParameters) {
 	cardsList.append(cardElement);
 }
 
-// Вывод карточек на страницу
-initialCards.forEach((element) => {
-	addCard(element);
-});
+Promise.all([getInitialCards(), getProfileInfo()])
+	.then(([cards, profileInfo]) => {
+		profileTitle.textContent = profileInfo.name;
+		profileDescription.textContent = profileInfo.about;
+		profileImage.src = profileInfo.avatar;
+		userId = profileInfo._id;
+
+		cards.forEach((card) => {
+			addCard(card);
+		});
+	})
+	.catch((error) => {
+		console.log('Error: ', error);
+	})
 
 // Открытие карточки
 function openFullCardPopup(name, link) {
@@ -106,6 +119,8 @@ function handleProfileFormSubmit(evt) {
 	// Получаем текущие значения
 	const nameValue = nameInput.value;
 	const jobValue = jobInput.value;
+
+	// getInitialCards()
 
 	// Устанавливаем текущие значения
 	profileTitle.textContent = nameValue;
