@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, likeCard, onDelete } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
-import { getInitialCards, getProfileInfo, updateProfileInfo } from './api';
+import {addNewCard, getInitialCards, getProfileInfo, updateProfileInfo} from './api';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -140,20 +140,26 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 function handleCardFormSubmit(evt) {
 	evt.preventDefault();
 
-	const urlValue = cardUrlInput.value;
 	const nameValue = cardNameInput.value;
+	const urlValue = cardUrlInput.value;
 
-	const card = createCard({
-		link: urlValue,
-		name: nameValue,
-		likeCard,
-		onDelete,
-		openFullCardPopup
-	});
+	addNewCard(nameValue, urlValue)
+		.then((newCard) => {
+			const card = createCard({
+				name: newCard.name,
+				link: newCard.link,
+				likeCard,
+				onDelete,
+				openFullCardPopup
+			});
+			cardsList.prepend(card);
 
-	cardsList.prepend(card);
-	cardForm.reset();
-	closePopup(cardFormWrap);
+			cardForm.reset();
+			closePopup(cardFormWrap);
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 }
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
