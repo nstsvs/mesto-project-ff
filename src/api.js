@@ -62,3 +62,25 @@ export const addNewCard = (name, link) => {
       console.log(err)
     })
 }
+
+export const addLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+export const deleteLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err)
+    })
+}

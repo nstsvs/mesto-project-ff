@@ -1,8 +1,8 @@
 import './pages/index.css';
-import { createCard, likeCard, onDelete } from './components/card';
+import { createCard, onDelete, onLike } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
-import {addNewCard, getInitialCards, getProfileInfo, updateProfileInfo} from './api';
+import { addNewCard, getInitialCards, getProfileInfo, updateProfileInfo } from './api';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -46,15 +46,12 @@ const validationConfig = {
 let userId = null;
 
 // Добавление карточки на страницу
-function addCard(cardParameters) {
-	// Извлекаем необходимые параметры из объекта cardParameters
-	const { link, name } = cardParameters;
-
+function addCard(cardData) {
 	// Создаем карточку с использованием полученных параметров и других функций
 	const cardElement = createCard({
-		link,
-		name,
-		likeCard,
+		cardData,
+		userId,
+		onLike,
 		onDelete,
 		openFullCardPopup
 	});
@@ -144,11 +141,11 @@ function handleCardFormSubmit(evt) {
 	const urlValue = cardUrlInput.value;
 
 	addNewCard(nameValue, urlValue)
-		.then((newCard) => {
+		.then((cardData) => {
 			const card = createCard({
-				name: newCard.name,
-				link: newCard.link,
-				likeCard,
+				cardData,
+				userId,
+				onLike,
 				onDelete,
 				openFullCardPopup
 			});
