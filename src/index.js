@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, likeCard, onDelete } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
-import { getInitialCards, getProfileInfo } from './api';
+import { getInitialCards, getProfileInfo, updateProfileInfo } from './api';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -73,8 +73,8 @@ Promise.all([getInitialCards(), getProfileInfo()])
 			addCard(card);
 		});
 	})
-	.catch((error) => {
-		console.log('Error: ', error);
+	.catch((err) => {
+		console.log('Error: ', err);
 	})
 
 // Открытие карточки
@@ -120,11 +120,18 @@ function handleProfileFormSubmit(evt) {
 	const nameValue = nameInput.value;
 	const jobValue = jobInput.value;
 
-	// Устанавливаем текущие значения
-	profileTitle.textContent = nameValue;
-	profileDescription.textContent = jobValue;
+	updateProfileInfo(nameValue, jobValue)
+		.then(() => {
+			// Устанавливаем текущие значения
+			profileTitle.textContent = nameValue;
+			profileDescription.textContent = jobValue;
 
-	closePopup(profileFormWrap);
+			// Закрытие попапа после успешного обновления
+			closePopup(profileFormWrap);
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);

@@ -23,6 +23,21 @@ export const getProfileInfo = () => {
     });
 }
 
+export const updateProfileInfo = (name, about) => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      name: name,
+      about: about
+    })
+  })
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
 export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
@@ -32,3 +47,4 @@ export const getInitialCards = () => {
       console.log(err);
     });
 }
+

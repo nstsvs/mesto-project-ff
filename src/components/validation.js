@@ -59,6 +59,10 @@ function toggleButtonState(inputList, buttonElement, validationConfig) {
 export function enableValidation(validationConfig) {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   formList.forEach((formElement) => {
+    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+    const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+    // Переключаем состояние кнопки при инициализации формы
+    toggleButtonState(inputList, buttonElement, validationConfig);
     setEventListeners(formElement, validationConfig);
   });
 }
