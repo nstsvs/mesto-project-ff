@@ -1,4 +1,9 @@
-import { addLike, deleteLike } from '../api';
+import { addLike, deleteLike, removeCard } from '../api';
+import { closePopup, openPopup } from "./modal";
+
+const confirmDeletePopup = document.querySelector('.popup_type_confirm-delete');
+const confirmDeleteButton = confirmDeletePopup.querySelector('.popup__button_confirm-delete');
+let currentCardToDelete = null;
 
 export function createCard(cardParameters) {
 	const { cardData, userId, onLike, onDelete, openFullCardPopup } = cardParameters;
@@ -16,8 +21,9 @@ export function createCard(cardParameters) {
 	likeCount.textContent = cardData.likes.length;
 
 	if(userId === cardData.owner._id) {
+		deleteButton.classList.add('card__delete-button_visible')
 		deleteButton.addEventListener('click', () => {
-			onDelete(cardData._id, cardTemplate)
+			onDelete(cardData._id, cardElement)
 		})
 	} else {
 		deleteButton.remove();
@@ -34,6 +40,27 @@ export function createCard(cardParameters) {
 	});
 
 	return cardElement;
+}
+
+confirmDeleteButton.addEventListener('click', () => {
+	if (currentCardToDelete) {
+		removeCard(currentCardToDelete.cardId)
+			.then(() => {
+				// Удаление элемента карточки из DOM
+				currentCardToDelete.cardElement.remove();
+				// Сброс текущей карточки
+				currentCardToDelete = null;
+				closePopup(confirmDeletePopup);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+});
+
+export function onDelete(cardId, cardElement) {
+	currentCardToDelete = {cardId, cardElement};
+	openPopup(confirmDeletePopup);
 }
 
 export function onLike(cardId, buttonElement, likeCount) {
@@ -62,9 +89,4 @@ function isLiked(cardElement, buttonElement, userId) {
 	if (cardElement.likes.some((user) => user._id === userId)) {
 		buttonElement.classList.add('card__like-button_is-active');
 	}
-}
-
-export function onDelete(evt) {
-	const listItem = evt.target.closest('.places__item');
-	listItem.remove();
 }

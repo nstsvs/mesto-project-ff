@@ -84,3 +84,14 @@ export const deleteLike = (cardId) => {
       console.log(err)
     })
 }
+
+export const removeCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(handleRequest)
+    .catch((err) => {
+      console.log(err)
+    })
+}
