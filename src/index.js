@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, onDelete, onLike } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
-import { addNewCard, getInitialCards, getProfileInfo, updateProfileInfo } from './api';
+import { addNewCard, getInitialCards, getProfileInfo, updateAvatar, updateProfileInfo } from './api';
 
 // Список карточек
 const cardsList = document.querySelector('.places__list');
@@ -19,6 +19,9 @@ const profileImage = document.querySelector('.profile__image');
 const profileForm = document.forms['edit-profile'];
 const nameInput = profileForm.querySelector('.popup__input_type_name');
 const jobInput = profileForm.querySelector('.popup__input_type_description');
+const avatarForm = document.forms['update-avatar'];
+const avatarInput = avatarForm.querySelector('.popup__input_type_avatar');
+const updateAvatarPopupWrapper = document.querySelector('.popup_type_update-avatar');
 
 // Добавление карточки
 const addCardButton = document.querySelector('.profile__add-button');
@@ -32,7 +35,7 @@ const fullCardPopup = document.querySelector('.popup_type_image');
 const fullCardImage = fullCardPopup.querySelector('.popup__image');
 const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
 
-const formElements = [cardForm, profileForm];
+const formElements = [cardForm, profileForm, avatarForm];
 
 const validationConfig = {
 	formSelector: '.popup__form',
@@ -61,9 +64,10 @@ function addCard(cardData) {
 
 Promise.all([getInitialCards(), getProfileInfo()])
 	.then(([cards, profileInfo]) => {
+		// Инициализация данных
 		profileTitle.textContent = profileInfo.name;
 		profileDescription.textContent = profileInfo.about;
-		profileImage.src = profileInfo.avatar;
+		profileImage.style.backgroundImage = `url(${profileInfo.avatar})`;
 		userId = profileInfo._id;
 
 		cards.forEach((card) => {
@@ -93,6 +97,10 @@ editButton.addEventListener('click', () => {
 	jobInput.value = currentJob;
 });
 
+profileImage.addEventListener('click', () => {
+	openPopup(updateAvatarPopupWrapper)
+});
+
 // Кнопка добавления карточки
 addCardButton.addEventListener('click', () => {
 	openPopup(cardFormWrap);
@@ -112,6 +120,8 @@ popups.forEach((popup) => {
 // Форма редактирования профиля
 function handleProfileFormSubmit(evt) {
 	evt.preventDefault();
+	const popupButton = evt.target.querySelector('.popup__button');
+	popupButton.textContent = 'Сохранение...';
 
 	// Получаем текущие значения
 	const nameValue = nameInput.value;
@@ -122,20 +132,24 @@ function handleProfileFormSubmit(evt) {
 			// Устанавливаем текущие значения
 			profileTitle.textContent = nameValue;
 			profileDescription.textContent = jobValue;
-
-			// Закрытие попапа после успешного обновления
+			popupButton.textContent = 'Сохранить';
 			closePopup(profileFormWrap);
 		})
 		.catch((err) => {
 			console.log(err)
+			popupButton.textContent = 'Сохранить';
+		})
+		.finally(() => {
+			popupButton.textContent = 'Сохранить';
 		})
 }
-
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 // Форма добавления карточки на страницу
 function handleCardFormSubmit(evt) {
 	evt.preventDefault();
+	const popupButton = evt.target.querySelector('.popup__button');
+	popupButton.textContent = 'Сохранение...';
 
 	const nameValue = cardNameInput.value;
 	const urlValue = cardUrlInput.value;
@@ -150,15 +164,40 @@ function handleCardFormSubmit(evt) {
 				openFullCardPopup
 			});
 			cardsList.prepend(card);
-
+			popupButton.textContent = 'Создать';
 			cardForm.reset();
 			closePopup(cardFormWrap);
 		})
 		.catch((err) => {
 			console.log(err)
 		})
+		.finally(() => {
+			popupButton.textContent = 'Создать';
+		})
 }
-
 cardForm.addEventListener('submit', handleCardFormSubmit);
+
+// Обновление аватара
+function handleUpdateAvatarFormSubmit(evt) {
+	evt.preventDefault();
+	const popupButton = evt.target.querySelector('.popup__button');
+	popupButton.textContent = 'Сохранение...';
+	const avatarUrl = avatarInput.value;
+
+	updateAvatar(avatarUrl)
+		.then((user) => {
+			profileImage.style.backgroundImage = `url('${user.avatar}')`;
+			popupButton.textContent = 'Сохранить';
+			avatarForm.reset();
+			closePopup(updateAvatarPopupWrapper);
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+		.finally(() => {
+			popupButton.textContent = 'Сохранить';
+		})
+}
+avatarForm.addEventListener('submit', handleUpdateAvatarFormSubmit);
 
 enableValidation(validationConfig);
