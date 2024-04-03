@@ -33,8 +33,8 @@ Promise.all([getInitialCards(), getProfileInfo()])
 			addCard(card);
 		});
 	})
-	.catch((err) => {
-		console.log('Error: ', err);
+	.catch(() => {
+		console.error();
 	})
 
 // Открытие карточки
@@ -92,8 +92,8 @@ function handleProfileFormSubmit(evt) {
 			data.profileDescription.textContent = jobValue;
 			closePopup(data.profileFormWrap);
 		})
-		.catch((err) => {
-			console.log(err)
+		.catch(() => {
+			console.error();
 		})
 		.finally(() => {
 			evt.submitter.textContent = 'Сохранить';
@@ -122,8 +122,8 @@ function handleCardFormSubmit(evt) {
 			data.cardForm.reset();
 			closePopup(data.cardFormWrap);
 		})
-		.catch((err) => {
-			console.log(err)
+		.catch(() => {
+			console.error();
 		})
 		.finally(() => {
 			evt.submitter.textContent = 'Создать';
@@ -143,8 +143,8 @@ function handleUpdateAvatarFormSubmit(evt) {
 			data.avatarForm.reset();
 			closePopup(data.updateAvatarPopupWrapper);
 		})
-		.catch((err) => {
-			console.log(err);
+		.catch(() => {
+			console.error();
 		})
 		.finally(() => {
 			evt.submitter.textContent = 'Сохранить';

@@ -51,8 +51,8 @@ confirmDeleteButton.addEventListener('click', () => {
 				currentCardToDelete = null;
 				closePopup(confirmDeletePopup);
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch(() => {
+				console.error();
 			});
 	}
 });
@@ -69,8 +69,8 @@ export function onLike(cardId, buttonElement, likeCount) {
 				buttonElement.classList.remove('card__like-button_is-active');
 				likeCount.textContent = card.likes.length;
 			})
-			.catch((err) => {
-				console.error('Error:', err);
+			.catch(() => {
+				console.error();
 			});
 	} else {
 		addLike(cardId)
@@ -78,8 +78,8 @@ export function onLike(cardId, buttonElement, likeCount) {
 				buttonElement.classList.add('card__like-button_is-active');
 				likeCount.textContent = card.likes.length;
 			})
-			.catch((err) => {
-				console.error('Error:', err);
+			.catch(() => {
+				console.error();
 			});
 	}
 }
