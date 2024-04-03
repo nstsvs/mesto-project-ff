@@ -1,8 +1,7 @@
 import { addLike, deleteLike, removeCard } from '../api';
 import { closePopup, openPopup } from "./modal";
+import { confirmDeleteButton, confirmDeletePopup } from '../utils/constants';
 
-const confirmDeletePopup = document.querySelector('.popup_type_confirm-delete');
-const confirmDeleteButton = confirmDeletePopup.querySelector('.popup__button_confirm-delete');
 let currentCardToDelete = null;
 
 export function createCard(cardParameters) {
