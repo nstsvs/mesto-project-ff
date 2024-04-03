@@ -79,8 +79,7 @@ data.popups.forEach((popup) => {
 // Форма редактирования профиля
 function handleProfileFormSubmit(evt) {
 	evt.preventDefault();
-	const popupButton = evt.target.querySelector('.popup__button');
-	popupButton.textContent = 'Сохранение...';
+	evt.submitter.textContent = 'Сохранение...';
 
 	// Получаем текущие значения
 	const nameValue = data.nameInput.value;
@@ -91,15 +90,13 @@ function handleProfileFormSubmit(evt) {
 			// Устанавливаем текущие значения
 			data.profileTitle.textContent = nameValue;
 			data.profileDescription.textContent = jobValue;
-			popupButton.textContent = 'Сохранить';
 			closePopup(data.profileFormWrap);
 		})
 		.catch((err) => {
 			console.log(err)
-			popupButton.textContent = 'Сохранить';
 		})
 		.finally(() => {
-			popupButton.textContent = 'Сохранить';
+			evt.submitter.textContent = 'Сохранить';
 		})
 }
 data.profileForm.addEventListener('submit', handleProfileFormSubmit);
@@ -107,8 +104,7 @@ data.profileForm.addEventListener('submit', handleProfileFormSubmit);
 // Форма добавления карточки на страницу
 function handleCardFormSubmit(evt) {
 	evt.preventDefault();
-	const popupButton = evt.target.querySelector('.popup__button');
-	popupButton.textContent = 'Сохранение...';
+	evt.submitter.textContent = 'Сохранение...';
 
 	const nameValue = data.cardNameInput.value;
 	const urlValue = data.cardUrlInput.value;
@@ -123,7 +119,6 @@ function handleCardFormSubmit(evt) {
 				openFullCardPopup
 			});
 			data.cardsList.prepend(card);
-			popupButton.textContent = 'Создать';
 			data.cardForm.reset();
 			closePopup(data.cardFormWrap);
 		})
@@ -131,7 +126,7 @@ function handleCardFormSubmit(evt) {
 			console.log(err)
 		})
 		.finally(() => {
-			popupButton.textContent = 'Создать';
+			evt.submitter.textContent = 'Создать';
 		})
 }
 data.cardForm.addEventListener('submit', handleCardFormSubmit);
@@ -139,14 +134,12 @@ data.cardForm.addEventListener('submit', handleCardFormSubmit);
 // Обновление аватара
 function handleUpdateAvatarFormSubmit(evt) {
 	evt.preventDefault();
-	const popupButton = evt.target.querySelector('.popup__button');
-	popupButton.textContent = 'Сохранение...';
+	evt.submitter.textContent = 'Сохранение...';
 	const avatarUrl = data.avatarInput.value;
 
 	updateAvatar(avatarUrl)
 		.then((user) => {
 			data.profileImage.style.backgroundImage = `url('${user.avatar}')`;
-			popupButton.textContent = 'Сохранить';
 			data.avatarForm.reset();
 			closePopup(data.updateAvatarPopupWrapper);
 		})
@@ -154,7 +147,7 @@ function handleUpdateAvatarFormSubmit(evt) {
 			console.log(err);
 		})
 		.finally(() => {
-			popupButton.textContent = 'Сохранить';
+			evt.submitter.textContent = 'Сохранить';
 		})
 }
 data.avatarForm.addEventListener('submit', handleUpdateAvatarFormSubmit);
