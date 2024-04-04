@@ -27,16 +27,22 @@ function isValid(formElement, inputElement, validationConfig) {
   }
 }
 
-function setEventListeners(formElement, validationConfig){
+function setEventListeners(formElement, validationConfig) {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  // Деактивируем кнопку при загрузке
   toggleButtonState(inputList, buttonElement, validationConfig);
 
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
+    inputElement.addEventListener('input', function() {
       isValid(formElement, inputElement, validationConfig);
       toggleButtonState(inputList, buttonElement, validationConfig);
     });
+  });
+
+  // Добавляем обработчик события reset
+  formElement.addEventListener('reset', () => {
+    disableButton(buttonElement, validationConfig);
   });
 }
 
@@ -46,10 +52,14 @@ function hasInvalidInput(inputList) {
   });
 }
 
+function disableButton(buttonElement, validationConfig) {
+  buttonElement.disabled = true;
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+}
+
 function toggleButtonState(inputList, buttonElement, validationConfig) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(buttonElement, validationConfig);
   } else {
     buttonElement.disabled = false;
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -59,10 +69,9 @@ function toggleButtonState(inputList, buttonElement, validationConfig) {
 export function enableValidation(validationConfig) {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   formList.forEach((formElement) => {
-    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-    // Переключаем состояние кнопки при инициализации формы
-    toggleButtonState(inputList, buttonElement, validationConfig);
+    // Начальное деактивирование кнопки при загрузке
+    disableButton(buttonElement, validationConfig);
     setEventListeners(formElement, validationConfig);
   });
 }

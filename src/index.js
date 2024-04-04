@@ -116,11 +116,11 @@ function handleCardFormSubmit(evt) {
 				openFullCardPopup
 			});
 			data.cardsList.prepend(card);
+			evt.target.reset();
 			closePopup(data.cardFormWrap);
 		})
 		.catch(console.error)
 		.finally(() => {
-			data.cardForm.reset();
 			evt.submitter.textContent = 'Создать';
 		})
 }
@@ -135,7 +135,7 @@ function handleUpdateAvatarFormSubmit(evt) {
 	updateAvatar(avatarUrl)
 		.then((user) => {
 			data.profileImage.style.backgroundImage = `url('${user.avatar}')`;
-			data.avatarForm.reset();
+			evt.target.reset();
 			closePopup(data.updateAvatarPopupWrapper);
 		})
 		.catch(console.error)
