@@ -39,6 +39,3 @@ export const fullCardCaption = fullCardPopup.querySelector('.popup__caption');
 // Удаление карточки
 export const confirmDeletePopup = document.querySelector('.popup_type_confirm-delete');
 export const confirmDeleteButton = confirmDeletePopup.querySelector('.popup__button_confirm-delete');
-
-// Все формы
-export const formElements = [cardForm, profileForm, avatarForm];

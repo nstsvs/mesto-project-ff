@@ -45,6 +45,7 @@ function openFullCardPopup(name, link) {
 
 // Кнопка редактирования профиля
 data.editButton.addEventListener('click', () => {
+	clearValidation([data.profileForm], data.validationConfig);
 	openPopup(data.profileFormWrap);
 
 	const currentName = data.profileTitle.textContent;
@@ -55,11 +56,13 @@ data.editButton.addEventListener('click', () => {
 });
 
 data.profileImage.addEventListener('click', () => {
-	openPopup(data.updateAvatarPopupWrapper)
+	clearValidation([data.avatarForm], data.validationConfig);
+	openPopup(data.updateAvatarPopupWrapper);
 });
 
 // Кнопка добавления карточки
 data.addCardButton.addEventListener('click', () => {
+	clearValidation([data.cardForm], data.validationConfig);
 	openPopup(data.cardFormWrap);
 });
 
@@ -68,8 +71,6 @@ data.popups.forEach((popup) => {
 	popup.addEventListener('mousedown', (evt) => {
 		if (evt.target.classList.contains('popup_is-opened') || (evt.target.classList.contains('popup__close'))) {
 			closePopup(popup);
-			clearValidation(data.formElements, data.validationConfig);
-			data.cardForm.reset();
 		}
 	});
 });
@@ -115,11 +116,11 @@ function handleCardFormSubmit(evt) {
 				openFullCardPopup
 			});
 			data.cardsList.prepend(card);
-			data.cardForm.reset();
 			closePopup(data.cardFormWrap);
 		})
 		.catch(console.error)
 		.finally(() => {
+			data.cardForm.reset();
 			evt.submitter.textContent = 'Создать';
 		})
 }
