@@ -8,8 +8,9 @@ import { addNewCard, getInitialCards, getProfileInfo, updateAvatar, updateProfil
 let userId = null;
 
 // Добавление карточки на страницу
-function addCard(cardData) {
-	// Создаем карточку с использованием полученных параметров и других функций
+function addCard(cardData, method = 'prepend') {
+
+	// создаем карточку, передавая обработчики в виде объекта `callbacks`
 	const cardElement = createCard({
 		cardData,
 		userId,
@@ -18,7 +19,8 @@ function addCard(cardData) {
 		openFullCardPopup
 	});
 
-	data.cardsList.append(cardElement);
+	// вставляем карточку, используя метод (вставится `prepend` или `append`)
+	data.cardsList[ method ](cardElement);
 }
 
 Promise.all([getInitialCards(), getProfileInfo()])
