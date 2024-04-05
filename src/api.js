@@ -13,15 +13,18 @@ const handleRequest = (res) => {
   return Promise.reject(`Error: ${res.status}`);
 }
 
+function request(endpoint, options) {
+  return fetch(`${config.baseUrl}${endpoint}`, options).then(handleRequest);
+}
+
 export const getProfileInfo = () => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`/users/me`, {
     headers: config.headers
-  })
-    .then(handleRequest)
+  });
 }
 
 export const updateProfileInfo = (name, about) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
@@ -29,18 +32,16 @@ export const updateProfileInfo = (name, about) => {
       about: about
     })
   })
-    .then(handleRequest)
 }
 
 export const getInitialCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`/cards`, {
     headers: config.headers
   })
-    .then(handleRequest)
 }
 
 export const addNewCard = (name, link) => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -48,40 +49,35 @@ export const addNewCard = (name, link) => {
       link: link
     })
   })
-    .then(handleRequest)
 }
 
 export const addLike = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers
   })
-    .then(handleRequest)
 }
 
 export const deleteLike = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(handleRequest)
 }
 
 export const removeCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+  return request(`/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(handleRequest)
 }
 
 export const updateAvatar = (avatar) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
+  return request(`/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: avatar
     })
   })
-    .then(handleRequest)
 }
