@@ -1,8 +1,7 @@
 import { addLike, deleteLike, removeCard } from '../api';
 import { closePopup, openPopup } from "./modal";
+import { confirmDeleteButton, confirmDeletePopup } from '../utils/constants';
 
-const confirmDeletePopup = document.querySelector('.popup_type_confirm-delete');
-const confirmDeleteButton = confirmDeletePopup.querySelector('.popup__button_confirm-delete');
 let currentCardToDelete = null;
 
 export function createCard(cardParameters) {
@@ -52,9 +51,7 @@ confirmDeleteButton.addEventListener('click', () => {
 				currentCardToDelete = null;
 				closePopup(confirmDeletePopup);
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch(console.error)
 	}
 });
 
@@ -70,18 +67,14 @@ export function onLike(cardId, buttonElement, likeCount) {
 				buttonElement.classList.remove('card__like-button_is-active');
 				likeCount.textContent = card.likes.length;
 			})
-			.catch((err) => {
-				console.error('Error:', err);
-			});
+			.catch(console.error)
 	} else {
 		addLike(cardId)
 			.then((card) => {
 				buttonElement.classList.add('card__like-button_is-active');
 				likeCount.textContent = card.likes.length;
 			})
-			.catch((err) => {
-				console.error('Error:', err);
-			});
+			.catch(console.error)
 	}
 }
 
