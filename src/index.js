@@ -1,5 +1,6 @@
 import './pages/index.css';
-import * as data from './utils/constants'
+import * as data from './utils/constants';
+import { handleSubmit } from './utils/utils';
 import { createCard, onDelete, onLike } from './components/card';
 import { openPopup, closePopup } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation'
@@ -79,71 +80,59 @@ data.popups.forEach((popup) => {
 
 // Форма редактирования профиля
 function handleProfileFormSubmit(evt) {
-	evt.preventDefault();
-	evt.submitter.textContent = 'Сохранение...';
+	function makeRequest() {
+		// Получаем текущие значения
+		const nameValue = data.nameInput.value;
+		const jobValue = data.jobInput.value;
 
-	// Получаем текущие значения
-	const nameValue = data.nameInput.value;
-	const jobValue = data.jobInput.value;
-
-	updateProfileInfo(nameValue, jobValue)
-		.then(() => {
-			// Устанавливаем текущие значения
-			data.profileTitle.textContent = nameValue;
-			data.profileDescription.textContent = jobValue;
-			closePopup(data.profileFormWrap);
-		})
-		.catch(console.error)
-		.finally(() => {
-			evt.submitter.textContent = 'Сохранить';
-		})
+		return updateProfileInfo(nameValue, jobValue)
+			.then(() => {
+				// Устанавливаем текущие значения
+				data.profileTitle.textContent = nameValue;
+				data.profileDescription.textContent = jobValue;
+				closePopup(data.profileFormWrap);
+			})
+	}
+	handleSubmit(makeRequest, evt)
 }
 data.profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 // Форма добавления карточки на страницу
 function handleCardFormSubmit(evt) {
-	evt.preventDefault();
-	evt.submitter.textContent = 'Сохранение...';
+	function makeRequest() {
+		const nameValue = data.cardNameInput.value;
+		const urlValue = data.cardUrlInput.value;
 
-	const nameValue = data.cardNameInput.value;
-	const urlValue = data.cardUrlInput.value;
-
-	addNewCard(nameValue, urlValue)
-		.then((cardData) => {
-			const card = createCard({
-				cardData,
-				userId,
-				onLike,
-				onDelete,
-				openFullCardPopup
-			});
-			data.cardsList.prepend(card);
-			evt.target.reset();
-			closePopup(data.cardFormWrap);
-		})
-		.catch(console.error)
-		.finally(() => {
-			evt.submitter.textContent = 'Создать';
-		})
+		return addNewCard(nameValue, urlValue)
+			.then((cardData) => {
+				const card = createCard({
+					cardData,
+					userId,
+					onLike,
+					onDelete,
+					openFullCardPopup
+				});
+				data.cardsList.prepend(card);
+				closePopup(data.cardFormWrap);
+			})
+	}
+	handleSubmit(makeRequest, evt);
 }
 data.cardForm.addEventListener('submit', handleCardFormSubmit);
 
-// Обновление аватара
+// Форма обновления аватара
 function handleUpdateAvatarFormSubmit(evt) {
-	evt.preventDefault();
-	evt.submitter.textContent = 'Сохранение...';
-	const avatarUrl = data.avatarInput.value;
+	function makeRequest() {
+		const avatarUrl = data.avatarInput.value;
 
-	updateAvatar(avatarUrl)
-		.then((user) => {
-			data.profileImage.style.backgroundImage = `url('${user.avatar}')`;
-			evt.target.reset();
-			closePopup(data.updateAvatarPopupWrapper);
-		})
-		.catch(console.error)
-		.finally(() => {
-			evt.submitter.textContent = 'Сохранить';
-		})
+		return updateAvatar(avatarUrl)
+			.then((user) => {
+				data.profileImage.style.backgroundImage = `url('${user.avatar}')`;
+				closePopup(data.updateAvatarPopupWrapper);
+			})
+	}
+
+	handleSubmit(makeRequest, evt)
 }
 data.avatarForm.addEventListener('submit', handleUpdateAvatarFormSubmit);
 
