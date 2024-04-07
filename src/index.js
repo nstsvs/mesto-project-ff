@@ -105,14 +105,7 @@ function handleCardFormSubmit(evt) {
 
 		return addNewCard(nameValue, urlValue)
 			.then((cardData) => {
-				const card = createCard({
-					cardData,
-					userId,
-					onLike,
-					onDelete,
-					openFullCardPopup
-				});
-				data.cardsList.prepend(card);
+				addCard(cardData, 'prepend');
 				closePopup(data.cardFormWrap);
 			})
 	}
